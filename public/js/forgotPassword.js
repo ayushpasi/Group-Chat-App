@@ -4,7 +4,7 @@ async function sendMail() {
   try {
     const email = document.getElementById("resetPasswordEmail").value;
 
-    const res = await axios.post("/password/sendMail", {
+    const res = await axios.post("/password/send-mail", {
       email: email,
     });
     alert(res.data.message);

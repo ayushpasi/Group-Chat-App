@@ -4,23 +4,23 @@ const groupController = require("../controller/groupController");
 const userauthentication = require("../middleware/authentication");
 
 router.post(
-  "/createGroup",
+  "/create-group",
   userauthentication.authenticate,
   groupController.createGroup
 );
 
 router.get(
-  "/getGroups",
+  "/get-groups",
   userauthentication.authenticate,
   groupController.getGroups
 );
 
-router.get("/getGroup", groupController.getGroupbyId);
+router.get("/get-group", groupController.getGroupbyId);
 
-router.get("/getGroupMembers", groupController.getGroupMembersbyId);
+router.get("/get-group-members", groupController.getGroupMembersbyId);
 
 router.post(
-  "/updateGroup",
+  "/update-group",
   userauthentication.authenticate,
   groupController.updateGroup
 );

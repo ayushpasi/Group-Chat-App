@@ -6,21 +6,21 @@ const multerMiddleware = require("../middleware/multer");
 const upload = multerMiddleware.multer.single("image");
 
 router.post(
-  "/sendMessage",
+  "/post-message",
   userauthentication.authenticate,
   chatController.sendMessage
 );
 
-router.get("/getMessages/:param", chatController.getMessages);
+router.get("/get-message/:param", chatController.getMessages);
 
 router.get(
-  "/getGroupMessages",
+  "/get-group-messages",
 
   chatController.getGroupMessages
 );
 
 router.post(
-  "/postImage",
+  "/post-image",
   userauthentication.authenticate,
   upload,
   chatController.saveChatImages

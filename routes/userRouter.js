@@ -6,20 +6,20 @@ const router = express.Router();
 
 router.get("/", userController.getHomePage);
 
-router.get("/mainpage", userController.getMainPage);
+router.get("/main-page", userController.getMainPage);
 
 router.post("/signup", userController.userSignup);
 
 router.post("/login", userController.postUserLogin);
 
 router.get(
-  "/getUsers",
+  "/get-users",
   userauthentication.authenticate,
   userController.getAlluser
 );
 
 router.get(
-  "/getCurrentUser",
+  "/get-current-user",
   userauthentication.authenticate,
   userController.getcurrentuser
 );

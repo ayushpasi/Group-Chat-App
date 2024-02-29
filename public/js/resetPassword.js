@@ -3,7 +3,7 @@ const resetPasswordBtn = document.getElementById("resetPasswordBtn");
 async function updatePassword() {
   try {
     const newPassword = document.getElementById("newPassword").value;
-    const res = await axios.post(" /password/resetPassword", {
+    const res = await axios.post(" /password/reset-password", {
       password: newPassword,
     });
 

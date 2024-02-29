@@ -24,7 +24,7 @@ socket.on("group-message", (groupId) => {
 const showingAllUser = async () => {
   try {
     user_list.parentElement.classList.remove("d-none");
-    const usersResponse = await axios.get("/user/getUsers", {
+    const usersResponse = await axios.get("/user/get-users", {
       headers: { Authorization: token },
     });
 
@@ -52,10 +52,12 @@ const showingGroupDetails = async (e) => {
   try {
     const groupId = e.target.id;
     user_list.parentElement.classList.remove("d-none");
-    const usersResponse = await axios.get("/user/getUsers", {
+    const usersResponse = await axios.get("/user/get-users", {
       headers: { Authorization: token },
     });
-    const memberApi = await axios(`/group/getGroupMembers?groupId=${groupId}`);
+    const memberApi = await axios(
+      `/group/get-group-members?groupId=${groupId}`
+    );
 
     const groupMebers = memberApi.data.users;
     const idSet = new Set(groupMebers.map((item) => item.id));
@@ -85,7 +87,7 @@ const showingGroupDetails = async (e) => {
     });
     user_list.innerHTML = text;
 
-    const GroupApiresponse = await axios(`/group/getGroup?groupId=${groupId}`);
+    const GroupApiresponse = await axios(`/group/get-group?groupId=${groupId}`);
     const { group } = GroupApiresponse.data;
     modelElements.groupName.value = group.name;
     model_submibtn.innerHTML = "Update Details";
@@ -139,13 +141,13 @@ async function createGroup(e) {
         members: selectedUsers,
       };
       if (modelElements.editStatus.value == "false") {
-        await axios.post("/group/createGroup", data, {
+        await axios.post("/group/create-group", data, {
           headers: { Authorization: token },
         });
         alert("Group successfully created");
       } else {
         const groupId = modelElements.editStatus.value;
-        await axios.post(`/group/updateGroup?groupId=${groupId}`, data, {
+        await axios.post(`/group/update-group?groupId=${groupId}`, data, {
           headers: { Authorization: token },
         });
 
@@ -169,7 +171,7 @@ async function createGroup(e) {
 
 const getGroups = async () => {
   try {
-    const groupsResponse = await axios(`/group/getGroups`, {
+    const groupsResponse = await axios(`/group/get-groups`, {
       headers: { Authorization: token },
     });
     const { groups } = groupsResponse.data;
@@ -205,7 +207,7 @@ const showGroupChat = async (e) => {
   try {
     const groupId = e.target.id;
     console.log(groupId);
-    const getUserResponse = await axios.get("/user/getCurrentUser", {
+    const getUserResponse = await axios.get("/user/get-current-user", {
       headers: { Authorization: token },
     });
     const userId = getUserResponse.data.userId;
@@ -239,7 +241,7 @@ async function setupGroup(groupId, userId) {
 
       group_editbtn.classList.add("d-none");
     } else {
-      const APIresponse = await axios(`/group/getGroup?groupId=${groupId}`);
+      const APIresponse = await axios(`/group/get-group?groupId=${groupId}`);
 
       const { group } = APIresponse.data;
 
@@ -293,7 +295,7 @@ async function messageSend(e) {
         const formData = new FormData();
         formData.append("image", file);
         formData.append("GroupId", groupId);
-        const imageResponse = await axios.post("/chat/postImage", formData, {
+        const imageResponse = await axios.post("/chat/post-image", formData, {
           headers: { Authorization: token },
         });
       } else {
@@ -303,7 +305,7 @@ async function messageSend(e) {
       const message = userMessage.value;
 
       const res = await axios.post(
-        "/chat/sendMessage",
+        "/chat/post-image",
         {
           message: message,
           groupId: Number(groupId),
@@ -348,7 +350,7 @@ async function ShowCommonChats() {
       ? localStorageChats[localStorageChats.length - 1].id
       : 0;
 
-    const res = await axios.get(` /chat/getMessages/${lastMessageId}`);
+    const res = await axios.get(` /chat/get-message/${lastMessageId}`);
 
     const newMessages = res.data.messages;
     const mergedChats = localStorageChats.concat(newMessages);
@@ -368,7 +370,7 @@ async function ShowCommonChats() {
 
 async function showGroupChats(groupId) {
   try {
-    const res = await axios.get(`/chat/getGroupMessages?groupId=${groupId}`);
+    const res = await axios.get(`/chat/get-group-messages?groupId=${groupId}`);
     chatBoxBody.innerHTML = "";
     const token = localStorage.getItem("token");
     const userId = decodeToken(token).userId;

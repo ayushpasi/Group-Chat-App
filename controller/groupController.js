@@ -125,7 +125,8 @@ const getGroupMembersbyId = async (req, res, next) => {
 const updateGroup = async (req, res, next) => {
   const t = await sequelize.transaction(); // Start a transaction
   try {
-    const groupId = req.query.groupId; //  group ID is provided in the request params
+    const groupId = req.query.groupId;
+
     const groupName = req.body.groupName;
     const admin = req.user.name;
     const adminId = req.user.id;
@@ -150,7 +151,6 @@ const updateGroup = async (req, res, next) => {
     });
 
     if (membersArray.length > 0) {
-      // Add new members to the group
       const invitedMembers = await UserModel.findAll({
         where: {
           email: {
